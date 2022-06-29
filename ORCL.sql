@@ -1,0 +1,261 @@
+--SET SERVEROUTPUT ON;
+--DECLARE
+--  v_salary NUMBER(8);
+--  v_name VARCHAR2(30);
+--BEGIN 
+--  SELECT employee_id,employee_name INTO v_salary,v_name FROM employees WHERE employee_id=30431;
+--  DBMS_OUTPUT.PUT_LINE(v_salary ||' '|| v_name);
+--END;
+----CREATE TABLE employees(employee_id NUMBER(8), employee_name VARCHAR(20), salary Number(8));
+----INSERT INTO employees values(30431,'Hemanth',10000);
+--/
+----Anchored DataType
+--SET SERVEROUTPUT ON;
+--DECLARE
+--  v_fname EMPLOYEES.EMPLOYEE_NAME%TYPE;
+--BEGIN
+--  SELECT EMPLOYEE_NAME into v_fname from EMPLOYEES;
+--  DBMS_OUTPUT.PUT_LINE(v_fname);
+--END;
+--
+--/
+--alter TABLE EMPLOYEES MODIFY EMPLOYEE_NAME char(10);
+--/
+--DESCRIBE employees;
+--
+--/
+--SET SERVEROUTPUT ON;
+--DECLARE
+--  v_pi constant number(7,6):=4.4544;
+--BEGIN
+--  DBMS_OUTPUT.PUT_LINE( v_pi);
+--END;
+--
+--/
+--
+--DECLARE
+--  v_c constant number(7,6) not null default 3.45;
+--BEGIN
+--  DBMS_OUTPUT.PUT_LINE(v_c);
+--END;
+--/
+---- //Automatically prints  using autoprint on
+--set autoprint on;  
+--variable v_bind1 varchar(20);
+--exec :v_bind1 := 'hemanth';
+--set serveroutput on;
+--begin
+--  :v_bind1 :='hi';
+--  DBMS_OUTPUT.PUT_LINE(:v_bind1);
+--END;
+--/
+--print :v_bind1;
+--/
+--set serveroutput on;
+--declare
+--  v_num number(10);
+--begin
+--  v_num :=20; 
+----  value_1:='heman'; value_2:=431;
+--  if v_num<15 then  
+----  if value_1='hemanth' and value_2=431 then
+--    DBMS_OUTPUT.PUT_LINE('YES');
+--  end if;
+--    DBMS_OUTPUT.PUT_LINE('Ouside the IF');
+--END;
+--/
+--set serveroutput on;
+--declare
+--  val1 number := &enter_a_number;
+--begin
+--  if mod(val1,2)=0 then
+--  DBMS_OUTPUT.PUT_LINE('even');
+--  else
+--  DBMS_OUTPUT.PUT_LINE('odd');
+--  end if;
+--end;
+--/
+--set serveroutput on;
+--declare
+--  var_1 number := &enter_2;
+--  var_2 number := &enter_2;
+--begin
+-- if mod(var_1,2)=0 then
+-- DBMS_OUTPUT.PUT_LINE('var_1 is even');
+-- elsif mod(var_2,2)=0 then
+-- DBMS_OUTPUT.PUT_LINE('var_2 is even');
+-- elsif mod(var_1,2)=0 and mod(var_2,2)=0 then
+-- DBMS_OUTPUT.PUT_LINE('Both are even');
+-- else
+-- DBMS_OUTPUT.PUT_LINE('Both are odd');
+-- end if;
+--end;
+--  
+--set serveroutput on;
+--declare
+--  val_count number := 0;
+--  val_result number(10);
+--begin
+--  loop
+--    val_count := val_count+1;
+--    val_result := 19*val_count;
+--    DBMS_OUTPUT.PUT_LINE('19'||' x '||val_count||' = '||val_result);
+--    exit when val_count>=10;
+----    if val_count >= 10 then
+----      exit;
+----    end if;
+--  end loop;
+--end;
+--/
+--set SERVEROUTPUT ON;
+--declare
+--  v_test boolean := true;
+--  val_count number := 0;
+--  val_result number(10);
+--begin
+--  while val_count<10 loop
+--    val_count := val_count+1;
+--    val_result := 19*val_count;
+--    DBMS_OUTPUT.PUT_LINE('19'||' x '||val_count||' = '||val_result);
+----    if val_count >= 10 then
+----      exit;
+----    end if;
+--  end loop;
+--end;
+--  /
+--set SERVEROUTPUT ON;
+--declare
+--  i number(10);
+--begin
+----  for i in 1..10 loop
+--  for i in reverse 1..10 loop
+--      dbms_output.put_line(i||' ');
+--  end loop;
+--end;
+--create table superheroes(
+--sh_name VARCHAR2(20));
+--
+--set serveroutput on;
+--create or replace trigger bi_superheroes
+--before insert on superheroes
+--for each row
+--enable
+--declare
+--  v_user varchar2 (20);
+--begin
+--  select user into v_user from dual;
+--  DBMS_OUTPUT.PUT_LINE('You Just inserted a line '||v_user);
+--end;
+--/
+--insert into superheroes values('IronMan');
+--/
+--create or replace trigger bu_superheroes
+--before update on superheroes
+--for each row
+--enable
+--declare
+--  v_user varchar2 (20);
+--begin
+--  select user into v_user from dual;
+--  DBMS_OUTPUT.PUT_LINE('You Just updated a line '||v_user);
+--end;
+--/
+--update superheroes set sh_name='Hemanth' where sh_name='IronMan';
+
+--set SERVEROUTPUT ON;
+--create or replace trigger tr_superheroes
+--before update or INSERT or DELETE on superheroes
+--for each row
+--ENABLE
+--declare
+--  v_user superheroes.sh_name %TYPE;
+--begin
+--  select user into v_user from dual;
+--  if inserting then
+--    dbms_output.put_line('Inserted '||v_user);
+--  elsif updating then
+--    dbms_output.put_line('updateing '||v_user);
+--  elsif deleting then
+--    dbms_output.put_line('deleted '||v_user);
+--  end if;
+--end;
+--/
+----update superheroes set sh_name='Babblu' where sh_name='Hemanth';
+--insert into superheroes values('hemanth431');
+--delete from superheroes where sh_name='Babblu';
+--
+--create table sh_audit(
+--new_name varchar2(30),
+--old_name varchar2(30),
+--user_name varchar2(30),
+--entry_date varchar2(30),
+--operation varchar2(30));
+
+--set SERVEROUTPUT ON;
+--create or REPLACE TRIGGER superheroes_audit
+--before update or delete or INSERT ON superheroes
+--for each row
+--enable
+--declare
+--  v_user sh_audit.user_name %TYPE;
+--  v_date sh_audit.entry_date %TYPE;
+--BEGIN
+--  select user,TO_CHAR(sysdate,'DD/MON/YYYY HH24:MI:SS') into v_user,v_date from dual;
+--  if inserting then
+--  insert into sh_audit(new_name,old_name,user_name,entry_date,operation) values(:NEW.sh_name,null,v_user,v_date,'Insert');
+--  elsif deleting then
+--  insert into sh_audit(new_name,old_name,user_name,entry_date,operation) values(null,:OLD.sh_name,v_user,v_date,'Delete');
+--  elsif updating then
+--  insert into sh_audit(new_name,old_name,user_name,entry_date,operation) values(:NEW.sh_name,:OLD.sh_name,v_user,v_date,'Update');
+--  end if;
+--end;
+--select * from sh_audit;
+--update superheroes set sh_name='Babblu' where sh_name='hemanth431';
+--select * from superheroes;
+--desc superheroes;
+--create table superheroes_backup as select * from superheroes where 1=2;
+--select * from superheroes_backup;
+--create or REPLACE TRIGGER sh_trigg
+--before update or DELETE or INSERT ON superheroes
+--for EACH ROW
+--ENABLE
+--begin
+--  if inserting then
+--  insert into  superheroes_backup(sh_name) values(:NEW.sh_name);
+--  elsif updating then
+--  update superheroes_backup set sh_name=:NEW.sh_name where sh_name=:OLD.sh_name;
+--  elsif deleting then
+--  DELETE from superheroes_backup where sh_name=:OLD.sh_name;
+--  end if;
+--end;
+--  /
+--select * from superheroes_backup;
+--insert into superheroes values('hemanth431');
+--show user;
+--create table scheme_audit(
+--ddl_date DATE,
+--ddl_user VARCHAR(20),
+--object_created varchar2(20),
+--object_name VARCHAR(20),
+--ddl_operation VARCHAR(20)
+--);
+--CREATE OR REPLACE TRIGGER hr_audit_tr
+--AFTER DDL ON SCHEMA
+--BEGIN
+--  insert INTO scheme_audit values(
+----  date
+--  sysdate,
+----  user name 'system'
+--  sys_context('USERENV','CURRENT_USER'), 
+----  object type where ddl operation occured, like table 
+--  ora_dict_obj_type,
+----  returns name of the object given by user ex:table name
+--  ora_dict_obj_name,
+----  like create truncate etc
+--  ora_sysevent
+--  );
+--end;
+--create table hi(roll number(10));
+--truncate table hi;
+select * from scheme_audit;
+--drop TABLE hi;
